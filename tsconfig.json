@@ -77,6 +77,7 @@
     "files": [
         "Task/vault-reater.ts",
         "Task/vault-helper.ts",
-        "Task/util.ts"
+        "Task/util.ts",
+        "Task/task-actions.ts"
     ]
 }

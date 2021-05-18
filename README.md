@@ -1,6 +1,7 @@
-# vault-reader - Version 2.*
+# vault-reader - Version 3.*
 The purpose of this task is to read secrets from HashiCorp Vault server in order to use it during the build or the release process.
 
+![](Images/icons8-safe-128.png) <br>
 >_The icons for that task was taken from https://icons8.com/_
 
 
@@ -11,14 +12,17 @@ How to create a service connection:
 * go to project settings.
 * Select service connections under Pipelines section.
 * Create a new service by clicking on the "New service connection" button.
-* Select "Generic" type and press Next.
+* Select "Vault Reader" type and press Next.
 
+![](Images/Doc/NewServiceConnection.png)
 * Fill all details:
    * Server URL - the URL of the HashiCorp server. i.e. https://myvault.com:8200
-   * Username - to login with LDAP user type the username otherwise you should type the Auth Methods before (format: AuthMethods\UserName). the Auth Methods can be ldap\userpass\token.
+   * Auth Methods - select the method from the list. i.e. LDAP, Token etc.
+   * Username - enter username.
    * Password/Token - enter password or token for that user.
+   * Disable strict SSL - select this option if you get the error: <span style="color:red"> unable to verify the first certificate.</span>
 
-* Enter service name and description, and click Save.
+* Enter service name and description, click Save.
 
 ---
 
