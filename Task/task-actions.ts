@@ -74,7 +74,7 @@ export function actionBase64(path_detailes: any, field: string, index: number, t
     }
 }
 
-export function actionJson(path_detailes: any, field: string, index: number, type: string, var_name: string) {
+export function actionJson(path_detailes: any, field: string, index: number, type: string, var_name: string, var_list: {[index: string]: string;}) {
     if (!path_detailes) {
         tl.setResult(tl.TaskResult.Failed, tl.loc("dataNotExist", index, field, type));
         return;
@@ -86,7 +86,7 @@ export function actionJson(path_detailes: any, field: string, index: number, typ
             return;
     }
     else {
-        tl.warning(tl.loc("skipCompareObject", index));
+        tl.warning(tl.loc("skipCompareObject", index, type));
     }
 
     let filename: string = path.join(tl.getVariable('agent.tempDirectory') || '', var_name + "-" + Guid.create());
@@ -94,6 +94,7 @@ export function actionJson(path_detailes: any, field: string, index: number, typ
     try {
         util.writeToFile(filename, JSON.stringify(path_detailes, null, 2));
         tl.setVariable(var_name, filename, false);
+        util.addVariable(var_list, "{{" + var_name + "}}", filename)
     }
     catch (error) {
         tl.error(error);
@@ -101,7 +102,41 @@ export function actionJson(path_detailes: any, field: string, index: number, typ
     }
 }
 
-export function actionReplace(path_detailes: any, field: string, index: number, type: string, var_name: string) {
+export function actionYaml(path_detailes: any, field: string, index: number, type: string, var_name: string, var_list: {[index: string]: string;}) {
+    if (!path_detailes) {
+        tl.setResult(tl.TaskResult.Failed, tl.loc("dataNotExist", index, field, type));
+        return;
+    }
+
+    if (field != '*') {
+        let isOK = util.compareObjectSchemeToFile(path_detailes, field, index);
+        if(!isOK)
+            return;
+    }
+    else {
+        tl.warning(tl.loc("skipCompareObject", index, type));
+    }
+
+    let filename: string = path.join(tl.getVariable('agent.tempDirectory') || '', var_name + "-" + Guid.create());
+
+    try {
+        const YAML = require ('yaml');
+        let json = JSON.parse(JSON.stringify(path_detailes, null, 2))
+
+        let doc = new YAML.Document()
+        doc.contents = json
+
+        util.writeToFile(filename, doc.toString());
+        tl.setVariable(var_name, filename, false);
+        util.addVariable(var_list, "{{" + var_name + "}}", filename)
+    }
+    catch (error) {
+        tl.error(error);
+        tl.setResult(tl.TaskResult.Failed, tl.loc("writeFieldToFileFail", index, type));
+    }
+}
+
+export function actionReplace(path_detailes: any, field: string, index: number, type: string, var_name: string, var_list: {[index: string]: string;}) {
     if (!path_detailes) {
         tl.setResult(tl.TaskResult.Failed, tl.loc("dataNotExist", index, field, type));
         return;
@@ -117,6 +152,7 @@ export function actionReplace(path_detailes: any, field: string, index: number, 
     try {
         util.writeToFile(filename, content);
         tl.setVariable(var_name, filename, false);
+        util.addVariable(var_list, "{{" + var_name + "}}", filename)
     }
     catch (error) {
         tl.error(error);

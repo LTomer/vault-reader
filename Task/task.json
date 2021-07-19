@@ -13,10 +13,10 @@
   "version": {
     "Major": "3",
     "Minor": "0",
-    "Patch": "0"
+    "Patch": "20"
   },
   "releaseNotes": "",
-  "minimumAgentVersion": "1.95.0",
+  "minimumAgentVersion": "2.170.1",
   "instanceNameFormat": "Vault Reader",
   "inputs": [
     {
@@ -96,6 +96,7 @@
       "writeToFileFail": "Writing to file has failed.",
       "tokenPropertyNotExist": "Token property does not exist.",
       "dataOnPathNotExist": "Data on Path does not exist.",
+      "dataOnPathNotExistKVV2": "Data on Path does not exist (KV V2).",
       "invalidFilePath": "Invalid file path '%s'.",
       "unknownLineFormat": "Line %s, Unknown line format.",
       "loadJsonFromFileFail": "Line %s, Error while loading JSON file.",
@@ -103,10 +104,12 @@
       "secretNotEqualToSchema": "Line %s, Secret object validation failed.",
       "compareObjectNumberOfKeysNotEqual": "Number Of keys at %s is not equal.",
       "compareObjectKeyNotExist": "The key %s does not exist in the secound object.",
-      "skipCompareObject": "Line %s, Skip compare object to json file.",
+      "skipCompareObject": "Line %s, Skip compare object to %s file.",
       "UnknownErrorProcessType": "Line %s, Unknown error occurred at %s process type. message: '%s'",
       "ConnectionDetailsDebug": "Connection details: url=%s, loginType=%s",
       "ServiceNotExist": "Service does not define",
-      "actionPreWarning": "Line %s, you selected Asterisk on pre action, best practice is to write the relevant fields."
+      "actionPreWarning": "Line %s, you selected Asterisk on pre action, best practice is to write the relevant fields.",
+      "unknowKVVersion": "KV Version is unknown (%s).",
+      "KV2NotSupported": "This KV does not support KV version 2."
   }
 }

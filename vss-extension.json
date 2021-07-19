@@ -2,7 +2,7 @@
     "manifestVersion": 1,
     "id": "vault-reader",
     "name": "Vault Reader",
-    "version": "0.0.13",
+    "version": "0.0.16",
     "publisher": "Tomer",
     "targets": [
         {
@@ -121,7 +121,6 @@
                       "description": "Disable SSL certificate check",
                       "inputMode": "CheckBox",
                       "validation": {
-                        "isRequired": false,
                         "dataType": "Boolean"
                       }
                     }

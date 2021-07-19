@@ -1,5 +1,6 @@
 # vault-reader - Version 3.*
-The purpose of this task is to read secrets from HashiCorp Vault server in order to use it during the build or the release process.
+The purpose of this task is to read secrets from HashiCorp Vault server in order to use it during the build or the release process.<br>
+The task supported with generic Key-Value in version 1 & 2.
 
 ![](Images/icons8-safe-128.png) <br>
 >_The icons for that task was taken from https://icons8.com/_
@@ -59,6 +60,8 @@ projectPath <= /project/serviceA
 ```
 In this example we will create a variable named <span style="color:orange">projectPath</span> that sets the value <span style="color:green">/project/serviceA</span><br>
 
+> Result variable - for some Action type you can use the <span style="color:aqua">Azure-DevOps-Variable</span> as a special variable for the next lines, See comment on the table below.
+
 <ins>Define Actions:</ins><br>
 > General Format:
 <span style="color:lime">ActionType</span> => 
@@ -75,8 +78,9 @@ _<span style="color:aqua">Azure-DevOps-Variable</span> can contain Letters (uppe
 | pre | reads object from <span style="color:lightpink">Path</span><br> <span style="color:lightgreen">Field</span> will contain a list of keys (separated by a comma) or * for all keys (not recommended) | assigns multiple values to multiple variables<br> in a single command [^2] [^3] |
 | raw | reads value from <span style="color:lightpink">Path</span> & <span style="color:lightgreen">Field</span> and store the value into a file (as is) | assigns file location into a variable [^4] [^5] |
 | base64 | reads value from <span style="color:lightpink">Path</span> & <span style="color:lightgreen">Field</span>, decodes the value from BASE64 and stores the result into a file | assigns file location into a variable [^4] [^5] |
-| json | reads json object from <span style="color:lightpink">Path</span> and stores it into a file as json<br> <span style="color:lightgreen">Field</span> will contain location of the file schema. If the data and the scheme aren't equal it would fail<br> use * to skip the compare process (not recommended) | assigns file location into a variable [^5] |
-| rep | reads file from <span style="color:lightgreen">Field</span> and replaces the string \__[key]__ with a value that reads from <span style="color:lightpink">Path</span> and stores it into a file | assigns file location into a variable [^5] |
+| json | reads json object from <span style="color:lightpink">Path</span> and stores it into a file as json<br> <span style="color:lightgreen">Field</span> will contain location of the file schema. If the data and the scheme aren't equal it would fail<br> use * to skip the compare process (not recommended) | assigns file location into a variable [^5] [^6] |
+| yaml | reads json object from <span style="color:lightpink">Path</span> and stores it into a file as yaml<br> <span style="color:lightgreen">Field</span> will contain location of the json file schema. If the data and the scheme aren't equal it would fail<br> use * to skip the compare process (not recommended) | assigns file location into a variable [^5] [^6] |
+| rep | reads file from <span style="color:lightgreen">Field</span> and replaces the string \__[key]__ with a value that reads from <span style="color:lightpink">Path</span> and stores it into a file | assigns file location into a variable [^5] [^6]|
 
 <br>
 
@@ -84,7 +88,8 @@ _<span style="color:aqua">Azure-DevOps-Variable</span> can contain Letters (uppe
 [^2]: The type of the variable is "secret" and therefore it can't be printed in the build & release console.<br>
 [^3]: Variable name: <span style="color:aqua">Azure-DevOps-Variable</span><span style="color:red">_</span><span style="color:lightgreen">Field</span><br>
 [^4]: On Linux OS set permissions to Read only.<br>
-[^5]: The file that contains the secrets will be deleted at the end of the build/release process (the file is stored under _temp folder).
+[^5]: The file that contains the secrets will be deleted at the end of the build/release process (the file is stored under _temp folder).<br>
+[^6]: The <span style="color:aqua">Azure-DevOps-Variable</span> can used as a special variable surrounded with {{ }}, with this option output from one action can be the input for the others.
 
 <br>
 
@@ -157,7 +162,7 @@ _The json file will be stored under <span style="color:gray">config</span> folde
     "url": ""
   },
   "sql": {
-    "ConnectionString": ""
+    "ConnectionString": "__sql__"
   }
 }
 ```
@@ -168,6 +173,16 @@ servicePath <= DemoProjects/project-B
 
 # Read value using json action
 json => {servicePath}/service-B => config/service-b-template.json => configFile
+```
+### How to use <span style="color:yellow">yaml</span> action
+This section is based on the data that presented in the JSON explanation.
+
+```
+# Define a path
+servicePath <= DemoProjects/project-B
+
+# Read value using json action
+yaml => {servicePath}/service-B => config/service-b-template.json => configFile
 ```
 
 ### How to use <span style="color:yellow">rep</span>lace action
@@ -199,3 +214,14 @@ The variable $(secretFile) will contain the location of the updated file.<br>
 
 <br>
 ---
+
+### How to work with VaultReader __special variables__
+
+```
+# Define a path
+servicePath <= DemoProjects/project-B
+
+# Read value using json action
+json/yaml => {servicePath}/service-B => config/service-b-template.json => configFile
+rep => database/sql => {{configFile}} => configFile2
+```
