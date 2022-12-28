@@ -12,7 +12,7 @@
   ],
   "version": {
     "Major": "3",
-    "Minor": "1",
+    "Minor": "2",
     "Patch": "0"
   },
   "releaseNotes": "",
@@ -95,8 +95,7 @@
       "actionTypeNotImplemented": "Line %s, ActionType %s is not valid.",
       "writeToFileFail": "Writing to file has failed.",
       "tokenPropertyNotExist": "Token property does not exist.",
-      "dataOnPathNotExist": "Data on Path does not exist.",
-      "dataOnPathNotExistKVV2": "Data on Path does not exist (KV V2).",
+      "dataOnPathNotExist": "Data on Path does not exist (version: %s).",
       "invalidFilePath": "Invalid file path '%s'.",
       "unknownLineFormat": "Line %s, Unknown line format.",
       "loadJsonFromFileFail": "Line %s, Error while loading JSON file.",

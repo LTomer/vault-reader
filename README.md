@@ -1,10 +1,21 @@
-# vault-reader - Version 3.*
-The purpose of this task is to read secrets from HashiCorp Vault server in order to use it during the build or the release process.<br>
-The task supported with generic Key-Value in version 1 & 2.
+# vault-reader
+The purpose of this task is to read secrets from HashiCorp Vault server in order to use it during the pipeline or the release process.<br>
 
 ![](Images/icons8-safe-128.png) <br>
 >_The icons for that task was taken from https://icons8.com/_
 
+# Version 3.*
+The task supported with generic Key-Value in versions 1 & 2 without changing the path (although kv2's API is not compatible with v1).
+> What Changed on the path: <br>
+> V1: kv_name/level-1/../level-n <br>
+> V2: kv_name/data/level-1/../level-n <br>
+
+Currently, the vault-reader adds data level automatically. first, it tries to add data to support v2, if it doesn't work it tries it as is (without adding the data to the path). This option was added to the task because v2 is Incompatibility with v1 and there is no reason for the pipeline's processes to break. <br> 
+This feature will removed on the next major version to be align with the API.
+
+> Version 4.* - Coming Soon
+> * Remove the support of v1 & v2 that added to the task - it should be align with HashiCorp vault API.
+> * Allow to run the task on the Pre-job process (Open issue)
 
 ## Task Configuration
 
