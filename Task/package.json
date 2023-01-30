@@ -24,7 +24,7 @@
     "parse-json": "^6.0.2",
     "path": "^0.12.7",
     "unirest": "^0.6.0",
-    "yaml": "^2.2.0"
+    "yaml": "^2.2.1"
   },
   "devDependencies": {
     "@types/node": "^18.1.18",
