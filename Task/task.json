@@ -1,10 +1,10 @@
 {
-  "id": "34d19f40-9306-11e8-80f8-e3fce4d54d7e",
-  "name": "VaultReader",
-  "friendlyName": "Vault Reader",
+  "id": "34d19f40-9306-11e8-80f8-e3fce4d54d70",
+  "name": "VaultReaderTest",
+  "friendlyName": "Vault Reader Test",
   "description": "Read secrets from HashiCorp Vault Server",
   "author": "Tomer Levitt",
-  "helpMarkDown": "https://github.com/LTomer/vault-reader/blob/master/README.md",
+  "helpMarkDown": "https://github.com/LTomer/vault-reader/blob/main/README.md",
   "category": "Utility",
   "visibility": [
     "Build",
@@ -13,7 +13,7 @@
   "version": {
     "Major": "3",
     "Minor": "2",
-    "Patch": "1"
+    "Patch": "3"
   },
   "releaseNotes": "",
   "minimumAgentVersion": "2.170.1",
@@ -77,41 +77,45 @@
     }
   ],
   "execution": {
-    "Node10": {
-      "target": "vault-reater.js",
+    "Node16": {
+      "target": "vault-reader.js",
+      "argumentFormat": ""
+    },
+    "Node20_1": {
+      "target": "vault-reader.js",
       "argumentFormat": ""
     }
   },
   "messages": {
-      "getSecretFail": "Get secret process has failed (%s) - %s",
-      "tokenFail": "Get token process has failed",
-      "variableAlreadyExist": "Variable %s already exists",
-      "setVariable": "Variable %s was set.",
-      "actionLine": "Action line: Line=%s, Action=%s, Path=%s, Field=%s, Variable=%s",
-      "emptySecret": "Value is empty",
-      "fieldNotExist": "Line %s, Field '%s' do not exist. Type '%s'",
-      "dataNotExist": "Line %s, Path %s do not exist. Type %s",
-      "writeFieldToFileFail": "Line %s, Failed saving data of %s to file.",
-      "actionTypeNotImplemented": "Line %s, ActionType %s is not valid.",
-      "writeToFileFail": "Writing to file has failed.",
-      "tokenPropertyNotExist": "Token property does not exist.",
-      "dataOnPathNotExist": "Data on Path does not exist (version: %s).",
-      "invalidFilePath": "Invalid file path '%s'.",
-      "unknownLineFormat": "Line %s, Unknown line format.",
-      "loadJsonFromFileFail": "Line %s, Error while loading JSON file.",
-      "actionReplaceFail": "Line %s, Error while processing replace action.",
-      "secretNotEqualToSchema": "Line %s, Secret object validation failed.",
-      "compareObjectNumberOfKeysNotEqual": "Number Of keys at %s is not equal.",
-      "compareObjectKeyNotExist": "The key %s does not exist in the secound object.",
-      "skipCompareObject": "Line %s, Skip compare object to %s file.",
-      "UnknownErrorProcessType": "Line %s, Unknown error occurred at %s process type. message: '%s'",
-      "ConnectionDetailsDebug": "Connection details: url=%s, loginType=%s",
-      "ServiceNotExist": "Service does not define",
-      "actionPreWarning": "Line %s, you selected Asterisk on pre action, best practice is to write the relevant fields.",
-      "unknowKVVersion": "KV Version is unknown (%s).",
-      "KV2NotSupported": "This KV does not support KV version 2.",
-      "actionExportFail": "Line %s, Error while processing export action.",
-      "actionExpWarning": "Line %s, JSON key or value containing a newline character and it could affect the exported file.",
-      "actionExpObjWarning": "Line %s, Value contains an object instead of a string."
+    "getSecretFail": "Get secret process has failed (%s) - %s",
+    "tokenFail": "Get token process has failed",
+    "variableAlreadyExist": "Variable %s already exists",
+    "setVariable": "Variable %s was set.",
+    "actionLine": "Action line: Line=%s, Action=%s, Path=%s, Field=%s, Variable=%s",
+    "emptySecret": "Value is empty",
+    "fieldNotExist": "Line %s, Field '%s' do not exist. Type '%s'",
+    "dataNotExist": "Line %s, Path %s do not exist. Type %s",
+    "writeFieldToFileFail": "Line %s, Failed saving data of %s to file.",
+    "actionTypeNotImplemented": "Line %s, ActionType %s is not valid.",
+    "writeToFileFail": "Writing to file has failed.",
+    "tokenPropertyNotExist": "Token property does not exist.",
+    "dataOnPathNotExist": "Data on Path does not exist (version: %s).",
+    "invalidFilePath": "Invalid file path '%s'.",
+    "unknownLineFormat": "Line %s, Unknown line format.",
+    "loadJsonFromFileFail": "Line %s, Error while loading JSON file.",
+    "actionReplaceFail": "Line %s, Error while processing replace action.",
+    "secretNotEqualToSchema": "Line %s, Secret object validation failed.",
+    "compareObjectNumberOfKeysNotEqual": "Number Of keys at %s is not equal.",
+    "compareObjectKeyNotExist": "The key %s does not exist in the secound object.",
+    "skipCompareObject": "Line %s, Skip compare object to %s file.",
+    "UnknownErrorProcessType": "Line %s, Unknown error occurred at %s process type. message: '%s'",
+    "ConnectionDetailsDebug": "Connection details: url=%s, loginType=%s",
+    "ServiceNotExist": "Service does not define",
+    "actionPreWarning": "Line %s, you selected Asterisk on pre action, best practice is to write the relevant fields.",
+    "unknowKVVersion": "KV Version is unknown (%s).",
+    "KV2NotSupported": "This KV does not support KV version 2.",
+    "actionExportFail": "Line %s, Error while processing export action.",
+    "actionExpWarning": "Line %s, JSON key or value containing a newline character and it could affect the exported file.",
+    "actionExpObjWarning": "Line %s, Value contains an object instead of a string."
   }
 }
