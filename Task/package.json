@@ -19,16 +19,19 @@
   },
   "homepage": "https://github.com/LTomer/vault-reader",
   "dependencies": {
-    "azure-pipelines-task-lib": "^5.2.3",
+    "axios": "^1.7.9",
+    "azure-pipelines-task-lib": "^5.2.8",
     "guid-typescript": "^1.0.9",
     "parse-json": "^8.3.0",
     "path": "^0.12.7",
-    "unirest": "^0.2.7",
     "yaml": "^2.8.2"
   },
+  "scripts": {
+    "build": "./node_modules/.bin/tsc -p ../tsconfig.json"
+  },
   "devDependencies": {
-    "@types/node": "^20.14.8",
+    "@types/node": "^20.19.0",
     "@types/q": "^1.5.8",
-    "typescript": "^5.9.3"
+    "typescript": "^6.0.2"
   }
 }

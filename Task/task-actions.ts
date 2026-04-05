@@ -6,7 +6,6 @@ import { Guid } from "guid-typescript";
 export function actionVar(path_detailes: any, field: string, index: number, type: string, var_name: string) {
     if (path_detailes[field])
         tl.setVariable(var_name, String(path_detailes[field]), true);
-
     else
         tl.setResult(tl.TaskResult.Failed, tl.loc("fieldNotExist", index, field, type));
 }
@@ -24,7 +23,7 @@ export function actionPre(path_detailes: any, field: string, index: number, type
             if (!path_detailes[value]) {
                 tl.setResult(tl.TaskResult.Failed, tl.loc("fieldNotExist", index, value, type));
             }
-            else{
+            else {
                 tl.setVariable(var_name + "_" + value, String(path_detailes[value]), true);
             }
         });
@@ -47,7 +46,7 @@ export function actionRaw(path_detailes: any, field: string, index: number, type
         tl.setVariable(var_name, filename, false);
     }
     catch (error) {
-        tl.error(error);
+        tl.error(String(error));
         tl.setResult(tl.TaskResult.Failed, tl.loc("writeFieldToFileFail", index, type));
     }
 }
@@ -69,12 +68,12 @@ export function actionBase64(path_detailes: any, field: string, index: number, t
         tl.setVariable(var_name, filename, false);
     }
     catch (error) {
-        tl.error(error);
+        tl.error(String(error));
         tl.setResult(tl.TaskResult.Failed, tl.loc("writeFieldToFileFail", index, type));
     }
 }
 
-export function actionJson(path_detailes: any, field: string, index: number, type: string, var_name: string, var_list: {[index: string]: string;}) {
+export function actionJson(path_detailes: any, field: string, index: number, type: string, var_name: string, var_list: { [index: string]: string; }) {
     if (!path_detailes) {
         tl.setResult(tl.TaskResult.Failed, tl.loc("dataNotExist", index, field, type));
         return;
@@ -82,7 +81,7 @@ export function actionJson(path_detailes: any, field: string, index: number, typ
 
     if (field != '*') {
         let isOK = util.compareObjectSchemeToFile(path_detailes, field, index);
-        if(!isOK)
+        if (!isOK)
             return;
     }
     else {
@@ -97,12 +96,12 @@ export function actionJson(path_detailes: any, field: string, index: number, typ
         util.addVariable(var_list, "{{" + var_name + "}}", filename)
     }
     catch (error) {
-        tl.error(error);
+        tl.error(String(error));
         tl.setResult(tl.TaskResult.Failed, tl.loc("writeFieldToFileFail", index, type));
     }
 }
 
-export function actionYaml(path_detailes: any, field: string, index: number, type: string, var_name: string, var_list: {[index: string]: string;}) {
+export function actionYaml(path_detailes: any, field: string, index: number, type: string, var_name: string, var_list: { [index: string]: string; }) {
     if (!path_detailes) {
         tl.setResult(tl.TaskResult.Failed, tl.loc("dataNotExist", index, field, type));
         return;
@@ -110,7 +109,7 @@ export function actionYaml(path_detailes: any, field: string, index: number, typ
 
     if (field != '*') {
         let isOK = util.compareObjectSchemeToFile(path_detailes, field, index);
-        if(!isOK)
+        if (!isOK)
             return;
     }
     else {
@@ -120,7 +119,7 @@ export function actionYaml(path_detailes: any, field: string, index: number, typ
     let filename: string = path.join(tl.getVariable('agent.tempDirectory') || '', var_name + "-" + Guid.create());
 
     try {
-        const YAML = require ('yaml');
+        const YAML = require('yaml');
         let json = JSON.parse(JSON.stringify(path_detailes, null, 2))
 
         let doc = new YAML.Document()
@@ -131,12 +130,12 @@ export function actionYaml(path_detailes: any, field: string, index: number, typ
         util.addVariable(var_list, "{{" + var_name + "}}", filename)
     }
     catch (error) {
-        tl.error(error);
+        tl.error(String(error));
         tl.setResult(tl.TaskResult.Failed, tl.loc("writeFieldToFileFail", index, type));
     }
 }
 
-export function actionReplace(path_detailes: any, field: string, index: number, type: string, var_name: string, var_list: {[index: string]: string;}) {
+export function actionReplace(path_detailes: any, field: string, index: number, type: string, var_name: string, var_list: { [index: string]: string; }) {
     if (!path_detailes) {
         tl.setResult(tl.TaskResult.Failed, tl.loc("dataNotExist", index, field, type));
         return;
@@ -155,7 +154,7 @@ export function actionReplace(path_detailes: any, field: string, index: number, 
         util.addVariable(var_list, "{{" + var_name + "}}", filename)
     }
     catch (error) {
-        tl.error(error);
+        tl.error(String(error));
         tl.setResult(tl.TaskResult.Failed, tl.loc("writeFieldToFileFail", index, type));
     }
 }
@@ -180,7 +179,7 @@ export function actionExport(path_detailes: any, field: string, index: number, t
         tl.setVariable(var_name, filename, false);
     }
     catch (error) {
-        tl.error(error);
+        tl.error(String(error));
         tl.setResult(tl.TaskResult.Failed, tl.loc("writeFieldToFileFail", index, type));
     }
 }

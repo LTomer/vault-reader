@@ -13,7 +13,7 @@
   "version": {
     "Major": "3",
     "Minor": "2",
-    "Patch": "3"
+    "Patch": "5"
   },
   "releaseNotes": "",
   "minimumAgentVersion": "2.170.1",
@@ -91,6 +91,7 @@
     "tokenFail": "Get token process has failed",
     "variableAlreadyExist": "Variable %s already exists",
     "setVariable": "Variable %s was set.",
+    "setVariableFail": "Line %s, Failed to set variable for field '%s'. Type '%s'.",
     "actionLine": "Action line: Line=%s, Action=%s, Path=%s, Field=%s, Variable=%s",
     "emptySecret": "Value is empty",
     "fieldNotExist": "Line %s, Field '%s' do not exist. Type '%s'",
