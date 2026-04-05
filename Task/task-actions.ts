@@ -51,6 +51,22 @@ export function actionRaw(path_detailes: any, field: string, index: number, type
     }
 }
 
+export function actionB64Var(path_detailes: any, field: string, index: number, type: string, var_name: string) {
+    if (!path_detailes[field]) {
+        tl.setResult(tl.TaskResult.Failed, tl.loc("fieldNotExist", index, field, type));
+        return;
+    }
+
+    try {
+        let decoded = Buffer.from(String(path_detailes[field]), 'base64').toString('utf8');
+        tl.setVariable(var_name, decoded, true);
+    }
+    catch (error) {
+        tl.error(String(error));
+        tl.setResult(tl.TaskResult.Failed, tl.loc("UnknownErrorProcessType", index, type, String(error)));
+    }
+}
+
 export function actionBase64(path_detailes: any, field: string, index: number, type: string, var_name: string) {
     if (!path_detailes[field]) {
         tl.setResult(tl.TaskResult.Failed, tl.loc("fieldNotExist", index, field, type));

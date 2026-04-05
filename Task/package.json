@@ -1,6 +1,6 @@
 {
   "name": "vault-reader",
-  "version": "1.1.0",
+  "version": "4.0.0",
   "description": "Vault Login & Get data from server",
   "keywords": [
     "extensions",

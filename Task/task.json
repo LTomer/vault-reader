@@ -15,7 +15,7 @@
     "Minor": "0",
     "Patch": "0"
   },
-  "releaseNotes": "",
+  "releaseNotes": "Version 4.0.0: Supports KV v1 and v2 with automatic path detection. Requires Node16 or Node20 agent.",
   "minimumAgentVersion": "2.170.1",
   "instanceNameFormat": "Vault Reader",
   "inputs": [
@@ -67,7 +67,7 @@
       "label": "Data",
       "defaultValue": "# [ActionType] => [Path] => [Field] => [Azure-DevOps-Variable]",
       "required": true,
-      "helpMarkDown": "See documation on git repository.",
+      "helpMarkDown": "See documentation on git repository.",
       "visibleRule": "sourceType = inline",
       "properties": {
         "resizable": "true",
@@ -106,7 +106,7 @@
     "actionReplaceFail": "Line %s, Error while processing replace action.",
     "secretNotEqualToSchema": "Line %s, Secret object validation failed.",
     "compareObjectNumberOfKeysNotEqual": "Number Of keys at %s is not equal.",
-    "compareObjectKeyNotExist": "The key %s does not exist in the secound object.",
+    "compareObjectKeyNotExist": "The key %s does not exist in the second object.",
     "skipCompareObject": "Line %s, Skip compare object to %s file.",
     "UnknownErrorProcessType": "Line %s, Unknown error occurred at %s process type. message: '%s'",
     "ConnectionDetailsDebug": "Connection details: url=%s, loginType=%s",
