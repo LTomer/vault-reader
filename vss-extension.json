@@ -46,7 +46,7 @@
     {
       "id": "vault-reader",
       "type": "ms.vss-distributed-task.task",
-      "description": "Read secrets from hashicorp vault server.",
+      "description": "Read secrets from Hashicorp Vault server.",
       "targets": [
         "ms.vss-distributed-task.tasks"
       ],
