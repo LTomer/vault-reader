@@ -4,18 +4,20 @@ The purpose of this task is to read secrets from HashiCorp Vault server in order
 ![](Images/icons8-safe-128.png) <br>
 >_The icons for that task was taken from https://icons8.com/_
 
-# Version 3.*
-The task supported with generic Key-Value in versions 1 & 2 without changing the path (although kv2's API is not compatible with v1).
-> What Changed on the path: <br>
-> V1: kv_name/level-1/../level-n <br>
-> V2: kv_name/data/level-1/../level-n <br>
+**Current Version: 4.0.0** | [GitHub Repository](https://github.com/LTomer/vault-reader) | License: MIT
 
-Currently, the vault-reader adds data level automatically. first, it tries to add data to support v2, if it doesn't work it tries it as is (without adding the data to the path). This option was added to the task because v2 is Incompatibility with v1 and there is no reason for the pipeline's processes to break. <br> 
-This feature will removed on the next major version to be align with the API.
+## Runtime Requirements
 
-> Version 4.* - Coming Soon
-> * Remove the support of v1 & v2 that added to the task - it should be align with HashiCorp vault API.
-> * Allow to run the task on the Pre-job process (Open issue)
+- Azure DevOps agent with **Node16** or **Node20** support (`minimumAgentVersion: 2.206.1`)
+
+# Version 4.*
+The task supports HashiCorp Vault KV secrets engine in both **v1** and **v2** without requiring path changes in your instructions.
+
+> KV path differences: <br>
+> V1: `kv_name/level-1/../level-n` <br>
+> V2: `kv_name/data/level-1/../level-n`
+
+The vault-reader handles this automatically: it first attempts the v2 path (with `data` injected), and falls back to the v1 path if that fails. This keeps existing pipelines working regardless of the KV engine version.
 
 ## Task Configuration
 
@@ -29,7 +31,10 @@ How to create a service connection:
 ![](Images/Doc/NewServiceConnection.png)
 * Fill all details:
    * Server URL - the URL of the HashiCorp server. i.e. https://myvault.com:8200
-   * Auth Methods - select the method from the list. i.e. LDAP, Token etc.
+   * Auth Methods - select the method from the list:
+     * **LDAP** - authenticate with username and password via LDAP.
+     * **Token** - authenticate using a Vault token.
+     * **Userpass** - authenticate with a Vault username and password.
    * Username - enter username.
    * Password/Token - enter password or token for that user.
    * Disable strict SSL - select this option if you get the error: <span style="color:red"> unable to verify the first certificate.</span>
@@ -83,16 +88,17 @@ In this example we will create a variable named <span style="color:orange">proje
 _Task Variables can affect the <span style="color:lightpink">Path</span> and <span style="color:lightgreen">Field</span> of the action_ <br>
 _<span style="color:aqua">Azure-DevOps-Variable</span> can contain Letters (upper/lower), numbers, period and underline. Must start with a letter._
 
-| Action | Description | Azure DevOps Variable [^1] |
-|--------|-------------|-----------------------|
-| var | reads value from <span style="color:lightpink">Path</span> & <span style="color:lightgreen">Field</span> | assigns value to Azure DevOps variable [^2] |
-| pre | reads object from <span style="color:lightpink">Path</span><br> <span style="color:lightgreen">Field</span> will contain a list of keys (separated by a comma) or * for all keys (not recommended) | assigns multiple values to multiple variables<br> in a single command [^2] [^3] |
-| raw | reads value from <span style="color:lightpink">Path</span> & <span style="color:lightgreen">Field</span> and store the value into a file (as is) | assigns file location into a variable [^4] [^5] |
-| base64 | reads value from <span style="color:lightpink">Path</span> & <span style="color:lightgreen">Field</span>, decodes the value from BASE64 and stores the result into a file | assigns file location into a variable [^4] [^5] |
-| json | reads json object from <span style="color:lightpink">Path</span> and stores it into a file as json<br> <span style="color:lightgreen">Field</span> will contain location of the file schema. If the data and the scheme aren't equal it would fail<br> use * to skip the compare process (not recommended) | assigns file location into a variable [^5] [^6] |
-| yaml | reads json object from <span style="color:lightpink">Path</span> and stores it into a file as yaml<br> <span style="color:lightgreen">Field</span> will contain location of the json file schema. If the data and the scheme aren't equal it would fail<br> use * to skip the compare process (not recommended) | assigns file location into a variable [^5] [^6] |
-| rep | reads file from <span style="color:lightgreen">Field</span> and replaces the string \__[key]__ with a value that reads from <span style="color:lightpink">Path</span> and stores it into a file | assigns file location into a variable [^5] [^6]|
-| exp | export JSON object into file. The line define in the <span style="color:lightgreen">Field</span> as base64, %%KEY%% and %%VALUE%% defined place holder for key & value from the JSON object. | assigns file location into a variable [^5]|
+| Action | Description                                                                                                                                                                                                                                                                                                     | Azure DevOps Variable [^1]                                                      |
+| ------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| var    | reads value from <span style="color:lightpink">Path</span> & <span style="color:lightgreen">Field</span>                                                                                                                                                                                                        | assigns value to Azure DevOps variable [^2]                                     |
+| pre    | reads object from <span style="color:lightpink">Path</span><br> <span style="color:lightgreen">Field</span> will contain a list of keys (separated by a comma) or * for all keys (not recommended)                                                                                                              | assigns multiple values to multiple variables<br> in a single command [^2] [^3] |
+| raw    | reads value from <span style="color:lightpink">Path</span> & <span style="color:lightgreen">Field</span> and store the value into a file (as is)                                                                                                                                                                | assigns file location into a variable [^4] [^5]                                 |
+| base64 | reads value from <span style="color:lightpink">Path</span> & <span style="color:lightgreen">Field</span>, decodes the value from BASE64 and stores the result into a file                                                                                                                                       | assigns file location into a variable [^4] [^5]                                 |
+| b64var | reads value from <span style="color:lightpink">Path</span> & <span style="color:lightgreen">Field</span>, decodes the value from BASE64 and assigns the decoded string as a variable                                                                                                                            | assigns value to Azure DevOps variable [^2]                                     |
+| json   | reads json object from <span style="color:lightpink">Path</span> and stores it into a file as json<br> <span style="color:lightgreen">Field</span> will contain location of the file schema. If the data and the scheme aren't equal it would fail<br> use * to skip the compare process (not recommended)      | assigns file location into a variable [^5] [^6]                                 |
+| yaml   | reads json object from <span style="color:lightpink">Path</span> and stores it into a file as yaml<br> <span style="color:lightgreen">Field</span> will contain location of the json file schema. If the data and the scheme aren't equal it would fail<br> use * to skip the compare process (not recommended) | assigns file location into a variable [^5] [^6]                                 |
+| rep    | reads file from <span style="color:lightgreen">Field</span> and replaces the string \__[key]__ with a value that reads from <span style="color:lightpink">Path</span> and stores it into a file                                                                                                                 | assigns file location into a variable [^5] [^6]                                 |
+| exp    | export JSON object into file. The line define in the <span style="color:lightgreen">Field</span> as base64, %%KEY%% and %%VALUE%% defined place holder for key & value from the JSON object.                                                                                                                    | assigns file location into a variable [^5]                                      |
 
 <br>
 
@@ -144,6 +150,17 @@ raw =>  DemoProjects/project-B/service-A => rawData => file1
 # The location will be stored at the variable secret.
 base64 =>  DemoProjects/project-B/service-A => mySecret => secret
 ```
+
+### **How to use <span style="color:yellow">b64var</span> action**
+
+Similar to `base64`, but instead of writing the decoded content to a file, the decoded string is stored directly as a secret pipeline variable.
+
+```
+# Read mySecret from vault, decode it (base64) and store the decoded string in the variable secretValue.
+b64var => DemoProjects/project-B/service-A => mySecret => secretValue
+```
+
+The variable `$(secretValue)` will contain the decoded (plain text) value of `mySecret`.
 
 ### **How to work with VaultReader variables**
 
@@ -251,11 +268,114 @@ username = "someone"
 
 ### **How to work with VaultReader __special variables__**
 
+Task variables defined with `<=` can be referenced in `Path` and `Field` using `{varName}` syntax.<br>
+In addition, the output of file-producing actions (`json`, `yaml`, `rep`) can be used as input to subsequent actions by wrapping the Azure DevOps variable name in double curly braces: `{{varName}}`.
+
 ```
 # Define a path
 servicePath <= DemoProjects/project-B
 
 # Read value using json action
 json/yaml => {servicePath}/service-B => config/service-b-template.json => configFile
+
+# Use the output file of the previous action as the template for this action
 rep => database/sql => {{configFile}} => configFile2
 ```
+
+In this example, `{{configFile}}` passes the file path produced by the `json/yaml` action as the template input to the `rep` action.
+
+---
+
+## Development
+
+### Prerequisites
+
+| Tool                | Version |
+| ------------------- | ------- |
+| Node.js             | v25.2.1 |
+| npm                 | 11.6.2  |
+| TypeScript (global) | 6.0.2   |
+| tfx-cli (global)    | v0.23.1 |
+
+Install global tools:
+```bash
+npm install -g typescript
+npm install -g tfx-cli
+```
+
+### Build
+
+Compile TypeScript to JavaScript — two options:
+
+**Option A – local (recommended):**
+```bash
+cd Task
+npm install
+npm run build
+```
+
+**Option B – global TypeScript (run from project root):**
+```bash
+tsc -p tsconfig.json
+```
+
+To compile and run a single file for quick testing:
+```bash
+tsc <file>.ts && node <file>.js
+```
+
+---
+
+## Deployment to Azure DevOps
+
+There are two ways to deploy: uploading the task directly (faster for development) or publishing a full marketplace extension.
+
+### Option 1 – Azure DevOps Extension for Azure CLI
+
+The [Azure DevOps Extension for Azure CLI](https://learn.microsoft.com/en-us/azure/devops/cli/) (`az devops`) is the official Microsoft CLI. It is useful for general Azure DevOps management but does **not** support uploading custom build tasks directly — use **tfx-cli** for that.
+
+### Option 2 – tfx-cli (uploading tasks directly)
+
+Best for development iterations — uploads the task straight to the organization without packaging an extension.
+
+**Login:**
+```bash
+tfx login -u https://dev.azure.com/<your-org> -t <personal-access-token>
+```
+
+**Upload task:**
+```bash
+cd Task
+tsc; tfx build tasks upload --task-path .
+```
+
+**List all uploaded tasks:**
+```bash
+tfx build tasks list --no-color
+```
+
+**Delete a task:**
+```bash
+tfx build tasks delete --task-id <task-guid>
+```
+> Task GUID for this project: `34d19f40-9306-11e8-80f8-e3fce4d54d70` (from `task.json`)
+
+### Option 3 – Package and publish as VSIX extension
+
+Packages all task files into a `.vsix` extension file that can be published to the Visual Studio Marketplace or uploaded to a private Azure DevOps organization.
+
+```bash
+# From the project root
+tfx extension create
+```
+
+This reads `vss-extension.json` and produces a `.vsix` file. To publish it:
+```bash
+tfx extension publish --vsix <file>.vsix
+```
+
+---
+
+## License
+
+MIT © LTomer

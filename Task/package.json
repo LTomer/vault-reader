@@ -1,6 +1,6 @@
 {
   "name": "vault-reader",
-  "version": "1.0.1",
+  "version": "4.0.0",
   "description": "Vault Login & Get data from server",
   "keywords": [
     "extensions",
@@ -19,16 +19,19 @@
   },
   "homepage": "https://github.com/LTomer/vault-reader",
   "dependencies": {
-    "azure-pipelines-task-lib": "^4.1.0",
+    "axios": "^1.7.9",
+    "azure-pipelines-task-lib": "^5.2.8",
     "guid-typescript": "^1.0.9",
-    "parse-json": "^6.0.2",
+    "parse-json": "^8.3.0",
     "path": "^0.12.7",
-    "unirest": "^0.6.0",
-    "yaml": "^2.2.0"
+    "yaml": "^2.8.2"
+  },
+  "scripts": {
+    "build": "./node_modules/.bin/tsc -p ../tsconfig.json"
   },
   "devDependencies": {
-    "@types/node": "^18.1.18",
-    "@types/q": "^1.5.5",
-    "typescript": "^4.9.4"
+    "@types/node": "^20.19.0",
+    "@types/q": "^1.5.8",
+    "typescript": "^6.0.2"
   }
 }
