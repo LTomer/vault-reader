@@ -16,7 +16,7 @@
     "Patch": "0"
   },
   "releaseNotes": "Version 4.0.0: Supports KV v1 and v2 with automatic path detection. Requires Node16 or Node20 agent.",
-  "minimumAgentVersion": "2.170.1",
+  "minimumAgentVersion": "2.206.1",
   "instanceNameFormat": "Vault Reader",
   "inputs": [
     {
